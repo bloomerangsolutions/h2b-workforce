@@ -4,22 +4,26 @@ import { TopNav } from "@/components/TopNav";
 import { Footer } from "@/components/Footer";
 import { CTABanner } from "@/components/CTABanner";
 import { Icon } from "@/components/Icon";
+import { BrandImage } from "@/components/BrandImage";
+import { InitialAvatar } from "@/components/InitialAvatar";
+import type { ImageKey } from "@/lib/site";
 
-const ARTICLES: Record<
-  string,
-  {
-    title: string;
-    date: string;
-    category: string;
-    intro: string;
-    sections: { heading: string; body: string }[];
-    quote?: { text: string; attribution: string };
-  }
-> = {
+type Article = {
+  title: string;
+  date: string;
+  category: string;
+  intro: string;
+  hero: ImageKey;
+  sections: { heading: string; body: string }[];
+  quote?: { text: string; attribution: string };
+};
+
+const ARTICLES: Record<string, Article> = {
   "2024-supplemental-cap": {
     title: "Navigating the 2024 supplemental H-2B visa cap: what employers need to know",
     date: "March 12, 2024",
     category: "Regulatory Update",
+    hero: "documentsDesk",
     intro:
       "The Department of Homeland Security (DHS) and the Department of Labor (DOL) have officially announced the release of nearly 65,000 supplemental H-2B temporary nonagricultural worker visas for fiscal year 2024. For industries like landscaping, roofing, and seasonal hospitality, this announcement is both a relief and a complex administrative hurdle.",
     sections: [
@@ -29,7 +33,7 @@ const ARTICLES: Record<
       },
       {
         heading: "Key deadlines for seasonal operations",
-        body: "For employers seeking workers for the summer season (April 1 to Sept 30), the filing window is exceptionally narrow. The labor certification process must be completed with pinpoint accuracy to avoid the 'Audit Trap' that often delays petitions.",
+        body: "For employers seeking workers for the summer season (April 1 to Sept 30), the filing window is exceptionally narrow. The labor certification process must be completed with pinpoint accuracy to avoid the audit trap that often delays petitions.",
       },
     ],
     quote: {
@@ -41,6 +45,7 @@ const ARTICLES: Record<
     title: "How Greenscapes Inc scaled to 40 workers in 2 seasons",
     date: "October 12, 2024",
     category: "Case Study",
+    hero: "warehouse",
     intro:
       "When Greenscapes Inc came to us in 2022, they were turning down $200k in maintenance contracts due to labor shortages. Two seasons later, they've scaled to a 40-worker H-2B crew with zero turnover.",
     sections: [
@@ -58,6 +63,7 @@ const ARTICLES: Record<
     title: "New Department of Labor rules for 2025 explained",
     date: "October 8, 2024",
     category: "News",
+    hero: "modernOffice",
     intro:
       "The DOL released updated guidance on H-2B housing standards and worker transportation requirements effective fiscal year 2025. Here is what every seasonal employer needs to act on.",
     sections: [
@@ -74,9 +80,18 @@ const ARTICLES: Record<
 };
 
 const RECENT_INSIGHTS = [
-  { slug: "2025-dol-rules", category: "Compliance", title: "The cost of housing: new DOL standards for 2024", read: "5 min read" },
-  { slug: "scaling-greenscapes", category: "Strategy", title: "Sourcing workers from Guatemala and Honduras", read: "8 min read" },
-  { slug: "i129-mistakes", category: "Case Study", title: "How a Mentor, OH landscaper scaled with H-2B", read: "12 min read" },
+  {
+    slug: "2025-dol-rules",
+    category: "Compliance",
+    title: "The cost of housing: new DOL standards for 2024",
+    read: "5 min read",
+  },
+  {
+    slug: "scaling-greenscapes",
+    category: "Strategy",
+    title: "Sourcing workers from Guatemala and Honduras",
+    read: "8 min read",
+  },
 ];
 
 export function generateStaticParams() {
@@ -106,11 +121,7 @@ export default async function ArticlePage({
           </div>
           <h1 className="mb-8 font-serif text-h1 leading-tight text-navy">{article.title}</h1>
           <div className="mb-12 flex items-center gap-4 border-l-2 border-copper pl-6">
-            <div className="h-12 w-12 overflow-hidden rounded-full bg-navy/10">
-              <div className="flex h-full w-full items-center justify-center">
-                <Icon name="person" className="text-navy/40" />
-              </div>
-            </div>
+            <InitialAvatar name="Michael Lerner" size="md" variant="navy" />
             <div>
               <p className="font-body font-bold text-navy">By Michael Lerner</p>
               <p className="font-body text-sm text-navy/60">Founding Attorney & Policy Lead</p>
@@ -118,9 +129,9 @@ export default async function ArticlePage({
           </div>
         </div>
 
-        {/* Hero placeholder */}
-        <div className="mb-16 flex aspect-[21/9] w-full items-center justify-center overflow-hidden rounded-lg border border-navy/12 bg-gradient-to-br from-navy via-[#1a3050] to-navy shadow-ambient">
-          <Icon name="article" className="text-paper/20" style={{ fontSize: "200px" }} />
+        {/* Hero image */}
+        <div className="mb-16 aspect-[21/9] w-full overflow-hidden rounded-lg border border-navy/12 shadow-ambient">
+          <BrandImage imageKey={article.hero} alt={article.title} fill priority />
         </div>
 
         {/* Body & Sidebar */}
@@ -162,7 +173,7 @@ export default async function ArticlePage({
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="font-mono text-copper">03</span>
-                  <span>Maintain exhaustive Prevailing Wage documentation for DOL audits.</span>
+                  <span>Maintain exhaustive prevailing wage documentation for DOL audits.</span>
                 </li>
               </ul>
             </div>
@@ -170,21 +181,16 @@ export default async function ArticlePage({
             {/* Author Bio */}
             <div className="mt-20 border-t border-navy/12 pt-12">
               <div className="flex flex-col items-center gap-8 rounded-lg border border-navy/12 bg-white p-10 shadow-ambient md:flex-row md:items-start">
-                <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-full border-2 border-copper/20">
-                  <div className="flex h-full w-full items-center justify-center bg-navy/10">
-                    <Icon name="person" className="text-navy/40" style={{ fontSize: "60px" }} />
-                  </div>
-                </div>
+                <InitialAvatar name="Michael Lerner" size="lg" variant="navy" />
                 <div className="text-center md:text-left">
                   <p className="mb-2 font-label text-xs font-semibold uppercase tracking-widest text-copper">
                     About the Author
                   </p>
                   <h4 className="mb-3 font-serif text-h3 text-navy">Michael Lerner</h4>
                   <p className="font-body leading-relaxed text-navy/70">
-                    Michael Lerner is a nationally recognized expert in employment-based
-                    immigration. With over 20 years of experience, he has helped thousands of
-                    seasonal businesses secure the workforce they need while maintaining strict
-                    adherence to DOL regulations.
+                    Michael Lerner is an attorney specializing in employment-based immigration with
+                    over 20 years of experience helping seasonal businesses secure the workforce
+                    they need while maintaining strict adherence to DOL regulations.
                   </p>
                 </div>
               </div>

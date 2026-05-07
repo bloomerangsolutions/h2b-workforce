@@ -2,6 +2,8 @@ import Link from "next/link";
 import { TopNav } from "@/components/TopNav";
 import { Footer } from "@/components/Footer";
 import { Icon } from "@/components/Icon";
+import { BrandImage } from "@/components/BrandImage";
+import { InitialAvatar } from "@/components/InitialAvatar";
 
 export const metadata = {
   title: "About | H2B Workforce",
@@ -31,9 +33,9 @@ export default function AboutPage() {
         {/* The Lerner Story */}
         <section className="mx-auto mb-32 max-w-7xl px-8">
           <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-12">
-            <div className="rounded-lg border border-navy/12 bg-white p-4 shadow-ambient md:col-span-5">
-              <div className="flex aspect-[4/5] w-full items-center justify-center rounded bg-gradient-to-br from-navy/80 to-navy">
-                <Icon name="person" className="text-paper/30" style={{ fontSize: "180px" }} />
+            <div className="overflow-hidden rounded-lg border border-navy/12 shadow-ambient md:col-span-5">
+              <div className="aspect-[4/5] w-full overflow-hidden">
+                <BrandImage imageKey="legalBooks" alt="Legal library and attorney workspace" fill />
               </div>
             </div>
             <div className="md:col-span-7">
@@ -76,8 +78,8 @@ export default function AboutPage() {
             </div>
             <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
               <TeamCard name="Michael Lerner" role="Founder & Lead Counsel" />
-              <TeamCard name="Eric" role="Director of Operations" />
-              <TeamCard name="GDS" role="Technology Partner" />
+              <TeamCard name="Eric Lerner" role="Director of Operations" />
+              <TeamCard name="GDS Engineering" role="Technology Partner" />
             </div>
           </div>
         </section>
@@ -179,10 +181,8 @@ export default function AboutPage() {
 function TeamCard({ name, role }: { name: string; role: string }) {
   return (
     <div className="group">
-      <div className="mb-6 overflow-hidden rounded-lg">
-        <div className="flex aspect-square w-full items-center justify-center bg-gradient-to-br from-navy/10 to-navy/30 transition-transform duration-500 group-hover:scale-105">
-          <Icon name="person" className="text-navy/40" style={{ fontSize: "100px" }} />
-        </div>
+      <div className="mb-6 flex aspect-square w-full items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-navy to-navy/80 transition-transform duration-500 group-hover:scale-[1.02]">
+        <InitialAvatar name={name} size="xl" variant="paper" />
       </div>
       <h3 className="font-serif text-h3 text-navy">{name}</h3>
       <p className="mt-1 font-label text-xs font-semibold uppercase tracking-widest text-copper">

@@ -3,12 +3,29 @@ import { TopNav } from "@/components/TopNav";
 import { Footer } from "@/components/Footer";
 import { CTABanner } from "@/components/CTABanner";
 import { Icon } from "@/components/Icon";
+import { BrandImage } from "@/components/BrandImage";
+import { FAQ } from "@/components/FAQ";
 
 export const metadata = {
   title: "Landscaping | H2B Workforce",
   description:
     "H-2B for landscaping companies. Reliable seasonal labor for the green industry with legal compliance and predictable operations.",
 };
+
+const FAQS = [
+  {
+    q: "Do I have to pay for their housing?",
+    a: "While you must ensure housing is available, most landscaping employers deduct the cost from the workers' weekly wages according to federal guidelines. We help you source compliant housing solutions.",
+  },
+  {
+    q: "What if they leave the job early?",
+    a: "H-2B workers are legally tied to your company for the duration of their visa. If they abandon the position, you are required to notify the DOL, and we assist with the reporting process.",
+  },
+  {
+    q: "Can they drive our company trucks?",
+    a: "Yes, provided they obtain a valid US state driver's license or have an international license recognized by your insurance carrier. Many of our clients transition veteran workers into crew lead roles with driving responsibilities.",
+  },
+];
 
 export default function LandscapingPage() {
   return (
@@ -42,10 +59,8 @@ export default function LandscapingPage() {
                 </Link>
               </div>
             </div>
-            <div className="relative h-[500px] w-full overflow-hidden rounded-xl bg-gradient-to-br from-[#3a5a40] to-[#1a2e23] shadow-2xl">
-              <div className="flex h-full w-full items-center justify-center">
-                <Icon name="park" className="text-paper/20" style={{ fontSize: "180px" }} />
-              </div>
+            <div className="h-[500px] w-full overflow-hidden rounded-xl shadow-2xl">
+              <BrandImage imageKey="sunsetField" alt="Field at golden hour" fill priority />
             </div>
           </div>
         </section>
@@ -113,26 +128,23 @@ export default function LandscapingPage() {
         {/* Spring-Ready Timeline */}
         <section className="bg-paper py-24">
           <div className="mx-auto max-w-7xl px-8">
-            <div className="mb-16 flex items-end justify-between">
-              <div>
-                <h2 className="mb-2 font-serif text-h2">The spring-ready timeline</h2>
-                <p className="font-body text-navy/60">
-                  Planning ahead is the only way to beat the cap.
-                </p>
-              </div>
-              <span className="hidden font-mono text-h3 text-copper md:block">01 / 04</span>
+            <div className="mb-16">
+              <h2 className="mb-2 font-serif text-h2">The spring-ready timeline</h2>
+              <p className="font-body text-navy/60">
+                Planning ahead is the only way to beat the cap.
+              </p>
             </div>
             <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
               {[
                 {
                   num: "01",
                   month: "October",
-                  body: "Prevailing Wage Determination and recruitment plan finalization.",
+                  body: "Prevailing wage determination and recruitment plan finalization.",
                 },
                 {
                   num: "02",
                   month: "December",
-                  body: "Department of Labor filing and the 'Lottery' submission.",
+                  body: "Department of Labor filing and the lottery submission.",
                 },
                 {
                   num: "03",
@@ -161,20 +173,7 @@ export default function LandscapingPage() {
         <section className="bg-white py-24">
           <div className="mx-auto max-w-3xl px-8">
             <h2 className="mb-16 text-center font-serif text-h2">Landscaping FAQs</h2>
-            <div className="space-y-6">
-              <FAQ
-                q="Do I have to pay for their housing?"
-                a="While you must ensure housing is available, most landscaping employers deduct the cost from the workers' weekly wages according to federal guidelines. We help you source compliant housing solutions."
-              />
-              <FAQ
-                q="What if they leave the job early?"
-                a="H-2B workers are legally tied to your company for the duration of their visa. If they abandon the position, you are required to notify the DOL, and we assist with the reporting process."
-              />
-              <FAQ
-                q="Can they drive our company trucks?"
-                a="Yes, provided they obtain a valid US state driver's license or have an international license recognized by your insurance carrier. Many of our clients transition veteran workers into crew lead roles with driving responsibilities."
-              />
-            </div>
+            <FAQ items={FAQS} />
           </div>
         </section>
 
@@ -218,20 +217,5 @@ function ProfileRow({ label, value }: { label: string; value: string }) {
       <span className="font-label text-xs uppercase tracking-widest opacity-60">{label}</span>
       <span className="font-mono text-xl">{value}</span>
     </div>
-  );
-}
-
-function FAQ({ q, a }: { q: string; a: string }) {
-  return (
-    <details className="group border-b border-navy/8 pb-6">
-      <summary className="flex cursor-pointer list-none items-center justify-between text-left font-bold text-lg text-navy">
-        {q}
-        <Icon
-          name="expand_more"
-          className="text-copper transition-transform group-open:rotate-180"
-        />
-      </summary>
-      <p className="mt-4 leading-relaxed text-navy/60">{a}</p>
-    </details>
   );
 }

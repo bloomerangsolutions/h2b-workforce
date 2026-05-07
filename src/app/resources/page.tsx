@@ -2,6 +2,9 @@ import Link from "next/link";
 import { TopNav } from "@/components/TopNav";
 import { Footer } from "@/components/Footer";
 import { Icon } from "@/components/Icon";
+import { BrandImage } from "@/components/BrandImage";
+import { NewsletterForm } from "@/components/NewsletterForm";
+import type { ImageKey } from "@/lib/site";
 
 export const metadata = {
   title: "Resources & Insights | H2B Workforce",
@@ -9,7 +12,14 @@ export const metadata = {
     "Practical guides, regulatory updates, and industry strategies for scaling your seasonal workforce with H-2B visa programs.",
 };
 
-const ARTICLES = [
+const ARTICLES: {
+  slug: string;
+  date: string;
+  category: string;
+  title: string;
+  excerpt: string;
+  image: ImageKey;
+}[] = [
   {
     slug: "2024-supplemental-cap",
     date: "OCT 14, 2024",
@@ -17,6 +27,7 @@ const ARTICLES = [
     title: "Audit-proofing your payroll for DOL inspections",
     excerpt:
       "Simple steps to ensure your wage records meet every federal H-2B requirement without the headache.",
+    image: "documentsDesk",
   },
   {
     slug: "scaling-greenscapes",
@@ -25,6 +36,7 @@ const ARTICLES = [
     title: "How Greenscapes Inc scaled to 40 workers in 2 seasons",
     excerpt:
       "A deep dive into the operational shifts required to manage a larger seasonal crew effectively.",
+    image: "warehouse",
   },
   {
     slug: "2025-dol-rules",
@@ -33,6 +45,7 @@ const ARTICLES = [
     title: "New Department of Labor rules for 2025 explained",
     excerpt:
       "Breaking down the recent changes in housing regulations and worker transportation requirements.",
+    image: "modernOffice",
   },
   {
     slug: "resort-staffing",
@@ -41,6 +54,7 @@ const ARTICLES = [
     title: "Seasonal peak management for resort operations",
     excerpt:
       "Best practices for onboarding and integrating H-2B staff into high-touch service environments.",
+    image: "geometricBuilding",
   },
   {
     slug: "12-month-forecast",
@@ -49,6 +63,7 @@ const ARTICLES = [
     title: "Forecasting your workforce needs: a 12-month map",
     excerpt:
       "Why successful H-2B users start their planning nearly a year before the first worker arrives on site.",
+    image: "blueprints",
   },
   {
     slug: "i129-mistakes",
@@ -57,11 +72,11 @@ const ARTICLES = [
     title: "Common mistakes in Form I-129 filings",
     excerpt:
       "The minor errors that lead to major delays and how to avoid them with rigorous internal review.",
+    image: "teamMeeting",
   },
 ];
 
 const FEATURED = ARTICLES[0];
-
 const TOPICS = ["All Topics", "Landscaping", "Construction", "Hospitality", "Compliance"];
 
 export default function ResourcesPage() {
@@ -86,8 +101,8 @@ export default function ResourcesPage() {
         {/* Featured */}
         <section className="mb-24">
           <div className="grid grid-cols-1 items-center gap-12 rounded-lg border border-navy/12 bg-white p-8 shadow-ambient md:grid-cols-12">
-            <div className="flex h-[400px] items-center justify-center overflow-hidden rounded bg-gradient-to-br from-[#3a5a40] to-[#1a2e23] md:col-span-7">
-              <Icon name="article" className="text-paper/20" style={{ fontSize: "180px" }} />
+            <div className="h-[400px] overflow-hidden rounded md:col-span-7">
+              <BrandImage imageKey={FEATURED.image} alt={FEATURED.title} fill />
             </div>
             <div className="flex flex-col justify-center md:col-span-5">
               <span className="mb-4 flex items-center gap-2 font-label text-xs font-semibold uppercase tracking-widest text-on-tertiary-container">
@@ -149,8 +164,8 @@ export default function ResourcesPage() {
               href={`/resources/${article.slug}`}
               className="group flex flex-col"
             >
-              <div className="mb-6 flex h-64 items-center justify-center overflow-hidden rounded border border-navy/12 bg-gradient-to-br from-navy/10 to-navy/30 transition-transform duration-500 group-hover:scale-[1.02]">
-                <Icon name="article" className="text-navy/30" style={{ fontSize: "80px" }} />
+              <div className="mb-6 h-64 overflow-hidden rounded border border-navy/12 transition-transform duration-500 group-hover:scale-[1.02]">
+                <BrandImage imageKey={article.image} alt={article.title} fill />
               </div>
               <span className="mb-2 font-mono text-xs text-copper">
                 {article.date} — {article.category.toUpperCase()}
@@ -174,22 +189,7 @@ export default function ResourcesPage() {
               </p>
             </div>
             <div className="w-full md:w-auto">
-              <div className="flex flex-col gap-4 sm:flex-row">
-                <input
-                  type="email"
-                  placeholder="Work email address"
-                  className="min-w-[300px] rounded border border-white/20 bg-white/10 px-6 py-4 placeholder:text-white/60 transition-all focus:bg-white focus:text-navy focus:outline-none"
-                />
-                <button
-                  type="button"
-                  className="rounded bg-navy px-8 py-4 font-bold text-white transition-all hover:bg-navy/90 active:scale-95"
-                >
-                  Subscribe
-                </button>
-              </div>
-              <p className="mt-4 text-xs opacity-70">
-                We respect your privacy. Unsubscribe at any time.
-              </p>
+              <NewsletterForm />
             </div>
           </div>
         </section>

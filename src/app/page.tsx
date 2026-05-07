@@ -2,6 +2,9 @@ import Link from "next/link";
 import { TopNav } from "@/components/TopNav";
 import { Footer } from "@/components/Footer";
 import { Icon } from "@/components/Icon";
+import { BrandImage } from "@/components/BrandImage";
+import { InitialAvatar } from "@/components/InitialAvatar";
+import { CAP_STATUS, PRICING_TIERS } from "@/lib/site";
 
 export default function HomePage() {
   return (
@@ -9,9 +12,21 @@ export default function HomePage() {
       <TopNav />
       <main>
         {/* Hero */}
-        <section className="bg-navy pb-20 pt-20 text-paper">
-          <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-16 px-8 lg:grid-cols-2">
+        <section className="relative overflow-hidden bg-navy pb-20 pt-20 text-paper">
+          <div className="absolute inset-0 opacity-30">
+            <BrandImage
+              imageKey="goldenHourCrew"
+              alt="Workers on a job site at golden hour"
+              fill
+              priority
+              overlay="duotone"
+            />
+          </div>
+          <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-16 px-8 lg:grid-cols-2">
             <div className="space-y-8 text-left">
+              <span className="inline-block border-b-2 border-copper pb-1 font-label text-xs font-semibold uppercase tracking-widest text-copper">
+                FY 2026 Filing Window Open
+              </span>
               <h1 className="max-w-xl font-serif text-h1">
                 Hire your 2026 crew without the legal headache.
               </h1>
@@ -22,13 +37,13 @@ export default function HomePage() {
               <div className="flex flex-col gap-4 sm:flex-row">
                 <Link
                   href="/eligibility"
-                  className="rounded bg-copper px-8 py-4 font-serif text-lg font-bold text-white transition-all hover:brightness-110 active:scale-95"
+                  className="rounded bg-copper px-8 py-4 font-serif text-lg font-bold text-white shadow-lg transition-all hover:brightness-110 active:scale-95"
                 >
                   Start Eligibility Quiz
                 </Link>
                 <Link
                   href="/how-it-works"
-                  className="rounded border border-paper/20 px-8 py-4 font-serif text-lg transition-all hover:bg-paper/5"
+                  className="rounded border border-paper/30 px-8 py-4 font-serif text-lg backdrop-blur transition-all hover:bg-paper/5"
                 >
                   View Program Dates
                 </Link>
@@ -46,23 +61,13 @@ export default function HomePage() {
                 </div>
                 <div className="text-right">
                   <span className="block font-mono text-xs">REFRESHED</span>
-                  <span className="font-mono text-xs text-copper">2m ago</span>
+                  <span className="font-mono text-xs text-copper">{CAP_STATUS.asOf}</span>
                 </div>
               </div>
 
               <div className="space-y-6">
-                <CapBar
-                  label="1st Half (Oct 1 Start)"
-                  status="33,000 / 33,000 Full"
-                  fill={100}
-                  color="bg-error"
-                />
-                <CapBar
-                  label="2nd Half (April 1 Start)"
-                  status="12,450 / 33,000 Open"
-                  fill={38}
-                  color="bg-copper"
-                />
+                <CapBar period={CAP_STATUS.firstHalf} />
+                <CapBar period={CAP_STATUS.secondHalf} />
                 <div className="border-l-4 border-copper bg-navy/5 p-4">
                   <p className="font-body text-sm italic text-navy/70">
                     Critical: April 1 start dates must begin recruitment by December 15th to
@@ -81,17 +86,22 @@ export default function HomePage() {
               <span className="mr-4 flex items-center font-label text-xs font-semibold uppercase tracking-widest text-navy/40">
                 Specialized for:
               </span>
-              {["Landscaping", "Roofing", "Concrete", "Painting", "Restaurants", "Hospitality"].map(
-                (industry) => (
-                  <Link
-                    key={industry}
-                    href={`/industries/${industry.toLowerCase()}`}
-                    className="cursor-pointer rounded-full border border-navy/12 bg-white px-6 py-2 font-serif text-navy transition-colors hover:border-copper"
-                  >
-                    {industry}
-                  </Link>
-                ),
-              )}
+              {[
+                { label: "Landscaping", href: "/industries/landscaping" },
+                { label: "Roofing", href: "/industries/landscaping" },
+                { label: "Concrete", href: "/industries/landscaping" },
+                { label: "Painting", href: "/industries/landscaping" },
+                { label: "Restaurants", href: "/industries/landscaping" },
+                { label: "Hospitality", href: "/industries/landscaping" },
+              ].map((industry) => (
+                <Link
+                  key={industry.label}
+                  href={industry.href}
+                  className="cursor-pointer rounded-full border border-navy/12 bg-white px-6 py-2 font-serif text-navy transition-colors hover:border-copper"
+                >
+                  {industry.label}
+                </Link>
+              ))}
             </div>
           </div>
         </div>
@@ -112,11 +122,15 @@ export default function HomePage() {
                   Typical Local Hiring Cost
                 </h4>
                 <div className="space-y-6">
-                  <CostRow label="Recruitment & Ads" value="$4,200" />
-                  <CostRow label="Average Turnover Rate (60%)" value="$12,500" valueClass="text-error" />
-                  <CostRow label="Onboarding & Training" value="$3,800" />
+                  <CostRow label="Recruitment & ads" value="$4,200" />
+                  <CostRow
+                    label="Average turnover rate (60%)"
+                    value="$12,500"
+                    valueClass="text-error"
+                  />
+                  <CostRow label="Onboarding & training" value="$3,800" />
                   <div className="flex justify-between pt-4 font-bold">
-                    <span className="font-serif text-xl">Total Per Season</span>
+                    <span className="font-serif text-xl">Total per season</span>
                     <span className="font-mono text-h2">$20,500+</span>
                   </div>
                 </div>
@@ -132,11 +146,16 @@ export default function HomePage() {
                   H2B Workforce Strategy
                 </h4>
                 <div className="space-y-6">
-                  <CostRow label="Legal & Compliance Filing" value="$2,800" dark />
-                  <CostRow label="Retention Rate (98%)" value="$0" valueClass="text-on-tertiary-container" dark />
-                  <CostRow label="Return-Worker Automation" value="$500" dark />
+                  <CostRow label="Legal & compliance filing" value="$2,800" dark />
+                  <CostRow
+                    label="Retention rate (98%)"
+                    value="$0"
+                    valueClass="text-on-tertiary-container"
+                    dark
+                  />
+                  <CostRow label="Return-worker automation" value="$500" dark />
                   <div className="flex justify-between pt-4 font-bold">
-                    <span className="font-serif text-xl text-copper">Net Monthly Savings</span>
+                    <span className="font-serif text-xl text-copper">Net monthly savings</span>
                     <span className="font-mono text-h2 text-copper">$3,400+</span>
                   </div>
                 </div>
@@ -154,7 +173,7 @@ export default function HomePage() {
                 {
                   num: "01",
                   icon: "quiz",
-                  title: "Eligibility Quiz",
+                  title: "Eligibility quiz",
                   body: "5-minute technical audit of your business to ensure you meet DOL temporary need requirements.",
                 },
                 {
@@ -172,7 +191,7 @@ export default function HomePage() {
                 {
                   num: "04",
                   icon: "flight_takeoff",
-                  title: "Workers Arrive",
+                  title: "Workers arrive",
                   body: "Consulate processing complete. Your crew arrives ready to work on day one of your season.",
                 },
               ].map((step) => (
@@ -205,7 +224,7 @@ export default function HomePage() {
                     filed in 48 hours, and got our guys here by April 1st.
                   </h2>
                   <div className="flex items-center gap-4">
-                    <div className="h-12 w-12 overflow-hidden rounded-full bg-navy/10" />
+                    <InitialAvatar name="Jim Henderson" size="md" variant="navy" />
                     <div>
                       <p className="font-serif text-lg font-bold">Jim Henderson</p>
                       <p className="font-body text-navy/60">CEO, Tri-State Landscaping</p>
@@ -214,10 +233,8 @@ export default function HomePage() {
                 </blockquote>
               </div>
             </div>
-            <div className="aspect-[4/3] w-full rounded-xl bg-gradient-to-br from-navy via-navy to-[#1f3a5c] p-1 shadow-2xl md:w-1/2">
-              <div className="flex h-full w-full items-center justify-center rounded-lg bg-navy/80">
-                <Icon name="image" className="text-paper/20" style={{ fontSize: "120px" }} />
-              </div>
+            <div className="aspect-[4/3] w-full overflow-hidden rounded-xl shadow-2xl md:w-1/2">
+              <BrandImage imageKey="industrialWorkers" alt="Industrial workforce on site" fill />
             </div>
           </div>
         </section>
@@ -233,37 +250,9 @@ export default function HomePage() {
             </div>
 
             <div className="grid grid-cols-1 border border-navy/12 shadow-ambient md:grid-cols-3">
-              <PricingTier
-                name="Self-Serve"
-                price="$4,500"
-                description="Best for returning employers with existing worker lists."
-                features={["DIY filing software", "Form I-129 preparation", "Document checklist"]}
-                cta="Select Plan"
-              />
-              <PricingTier
-                name="Attorney-Reviewed"
-                price="$7,500"
-                description="For companies needing new talent and full compliance handling."
-                features={[
-                  "Everything in Self-Serve",
-                  "Full attorney audit of filings",
-                  "RFE protection guarantee",
-                  "Priority phone support",
-                ]}
-                cta="Most Popular"
-                highlighted
-              />
-              <PricingTier
-                name="White-Glove"
-                price="$11,500"
-                description="Multi-state operations and large workforce pools (50+)."
-                features={[
-                  "Audit defense strategy",
-                  "On-site compliance setup",
-                  "Dedicated program manager",
-                ]}
-                cta="Talk to Sales"
-              />
+              {PRICING_TIERS.map((tier, i) => (
+                <PricingTier key={tier.id} tier={tier} isLast={i === PRICING_TIERS.length - 1} />
+              ))}
             </div>
           </div>
         </section>
@@ -271,10 +260,8 @@ export default function HomePage() {
         {/* Trust Strip */}
         <section className="bg-navy py-24 text-paper">
           <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-16 px-8 md:grid-cols-3">
-            <div className="aspect-square overflow-hidden rounded-lg border border-paper/20 bg-paper/10">
-              <div className="flex h-full w-full items-center justify-center">
-                <Icon name="person" className="text-paper/20" style={{ fontSize: "120px" }} />
-              </div>
+            <div className="aspect-square overflow-hidden rounded-lg border border-paper/20">
+              <BrandImage imageKey="legalBooks" alt="Legal books and documents" fill />
             </div>
             <div className="space-y-6 md:col-span-2">
               <div className="inline-block border-l-2 border-copper py-2 pl-6">
@@ -331,20 +318,20 @@ export default function HomePage() {
 }
 
 function CapBar({
-  label,
-  status,
-  fill,
-  color,
+  period,
 }: {
-  label: string;
-  status: string;
-  fill: number;
-  color: string;
+  period: { used: number; total: number; label: string };
 }) {
+  const fill = Math.min(100, Math.round((period.used / period.total) * 100));
+  const color = fill >= 100 ? "bg-error" : "bg-copper";
+  const status =
+    fill >= 100
+      ? `${period.total.toLocaleString()} / ${period.total.toLocaleString()} Full`
+      : `${period.used.toLocaleString()} / ${period.total.toLocaleString()} Open`;
   return (
     <div>
       <div className="mb-2 flex justify-between font-mono text-sm">
-        <span>{label}</span>
+        <span>{period.label}</span>
         <span className="font-bold">{status}</span>
       </div>
       <div className="h-3 w-full overflow-hidden rounded-full bg-navy/10">
@@ -377,52 +364,40 @@ function CostRow({
   );
 }
 
-function PricingTier({
-  name,
-  price,
-  description,
-  features,
-  cta,
-  highlighted = false,
-}: {
-  name: string;
-  price: string;
-  description: string;
-  features: string[];
-  cta: string;
-  highlighted?: boolean;
-}) {
+type Tier = (typeof PRICING_TIERS)[number];
+
+function PricingTier({ tier, isLast }: { tier: Tier; isLast: boolean }) {
   return (
     <div
-      className={`relative p-12 ${
-        highlighted ? "bg-paper" : ""
-      } ${highlighted ? "" : "border-r border-navy/12 last:border-r-0"}`}
+      className={`relative p-12 ${tier.highlighted ? "bg-paper" : ""} ${
+        !tier.highlighted && !isLast ? "border-r border-navy/12" : ""
+      }`}
     >
-      {highlighted ? <div className="absolute inset-x-0 top-0 h-1 bg-copper" /> : null}
-      <h4 className="mb-2 font-serif text-2xl font-bold">{name}</h4>
-      <p className="mb-8 font-body text-navy/60">{description}</p>
+      {tier.highlighted ? <div className="absolute inset-x-0 top-0 h-1 bg-copper" /> : null}
+      <h4 className="mb-2 font-serif text-2xl font-bold">{tier.name}</h4>
+      <p className="mb-8 font-body text-navy/60">{tier.tagline}</p>
       <div className="mb-8 font-mono text-4xl font-bold">
-        {price}{" "}
+        {tier.priceLabel}{" "}
         <span className="text-lg font-normal text-navy/40">/ season</span>
       </div>
       <ul className="mb-10 space-y-4">
-        {features.map((f) => (
+        {tier.features.map((f) => (
           <li key={f} className="flex items-start gap-2 font-body">
             <Icon name="check" className="mt-1 text-sm text-copper" />
             {f}
           </li>
         ))}
       </ul>
-      <button
-        type="button"
-        className={`w-full py-3 font-serif font-bold transition-colors ${
-          highlighted
+      <Link
+        href="/pricing"
+        className={`block w-full py-3 text-center font-serif font-bold transition-colors ${
+          tier.highlighted
             ? "bg-copper text-white hover:brightness-110"
             : "border border-navy hover:bg-navy hover:text-white"
         }`}
       >
-        {cta}
-      </button>
+        {tier.cta}
+      </Link>
     </div>
   );
 }
